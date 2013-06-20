@@ -1,4 +1,4 @@
--- PILLPOPPER
+-- Starfield
 -- Development by Matthew Maday
 -- DBA - Weekend Warrior Collective
 -- a 100% not-for-profit developer collective
@@ -28,31 +28,38 @@ local gComponents = {}
 -- INIT scene components
 --------------------------------------------------------------------------------------
 
--- loadRipple()
+-- loadStarfield()
 
-local function loadRipple()
+local function loadStarfield()
 
-	require "application.views.ripple"
+	require "application.views.starfield"
 
-	gComponents[#gComponents+1] = {loadRipple=nil}
-	gComponents.loadRipple  = LoadRipple:new({
-		speed=5, 
-		magnitude=5, 
-		source="content/images/test.png", 
-		xCellCnt=8,
-		yCellCnt=8,
-		sheetContentWidth=640,
-		sheetContentHeight=480
+	gComponents[#gComponents+1] = {starField=nil}
+	gComponents.starField  = LoadStarfield:new({
+		size=1,
+		centerX=display.contentCenterX,
+		centerY=display.contentCenterY,
+		image="content/images/star.png",
+		speed=1,
+		numStars=100,
+		width=display.contentWidth,
+		height=display.contentHeight
 	})
 
-	gComponents.loadRipple:show(300)
-
+	gComponents.starField:show(300)
+	Runtime:addEventListener("enterFrame", function()
+	gComponents.starField:process(display.contentCenterX,display.contentCenterY)	
+	end
+	)
 end
 
 --------------------------------------------------------------------------------------
 -- scene execution
 --------------------------------------------------------------------------------------
 
-loadRipple()
-gComponents.loadRipple:pause()
+loadStarfield()
+gComponents.starField:show()
 return screen
+
+
+
